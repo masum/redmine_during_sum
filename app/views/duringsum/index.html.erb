@@ -1,0 +1,18 @@
+<table border="1">
+<tr>
+<th>Date</th>
+<% @categories.each do |val| %>
+<th><%= val.name %></th>
+<% end %>
+</tr>
+
+<% @data.each do |key,val| %>
+<tr>
+<th><%= key %></th>
+<% @categories.each do |cat|  %>
+<th><%= val[cat.name].length unless val[cat.name].nil? %></th>
+<% end %>
+</tr>
+<% end %>
+</table>
+
