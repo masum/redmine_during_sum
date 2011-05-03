@@ -1,18 +1,40 @@
-<table border="1">
-<tr>
-<th>Date</th>
-<% @categories.each do |val| %>
-<th><%= val.name %></th>
-<% end %>
-</tr>
+<script src="http://www.google.com/jsapi"></script>
+<script>
+var baseurl = "<%= @esurl %>"
+google.load("jquery", "1");
+google.setOnLoadCallback(function() {
+    jQuery(document).ready(function() {
+        Calendar.setup({
+            inputField : 'start_date', 
+            ifFormat : '%Y-%m-%d', 
+            button : 'start_date_trigger' 
+        });
+        Calendar.setup({
+            inputField : 'end_date', 
+            ifFormat : '%Y-%m-%d', 
+            button : 'end_date_trigger' 
+        });
+        jQuery("#search").click(function() {
+		    s = jQuery("#start_date").attr("value");
+  			e = jQuery("#end_date").attr("value");
+  			url = baseurl + "/summary/" + s + "/" + e;
+  			jQuery("#summary").load(url);
+        });
+    });
+});
+</script>
+<script src="/javascripts/calendar/calendar.js?1277866455" type="text/javascript"></script>
+<script src="/javascripts/calendar/lang/calendar-ja.js?1199990054" type="text/javascript"></script>
+<script src="/javascripts/calendar/calendar-setup.js?1261847836" type="text/javascript"></script>
+<link href="/stylesheets/calendar.css?1282192477" media="screen" rel="stylesheet" type="text/css" />
 
-<% @data.each do |key,val| %>
-<tr>
-<th><%= key %></th>
-<% @categories.each do |cat|  %>
-<th><%= val[cat.name].length unless val[cat.name].nil? %></th>
-<% end %>
-</tr>
-<% end %>
-</table>
+<input type="text" size="10" id="start_date">
+<img src="/images/calendar.png" id="start_date_trigger" class="calendar-trigger" alt="Calendar">
+〜
+<input type="text" size="10" id="end_date">
+<img src="/images/calendar.png" id="end_date_trigger" class="calendar-trigger" alt="Calendar">
+<button id="search">表示</button>
+<hr>
+<div id="summary"></div>
+
 
